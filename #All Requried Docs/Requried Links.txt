@@ -1,0 +1,20 @@
+1.ABSTRACT : 
+https://docs.google.com/document/d/1D-I28mvR04ktPyf00fM6Szdk8id3xPI0hBv8W825eiY/edit?amp;usp=embed_facebook
+
+2.PAPER :
+https://docs.google.com/document/d/1bGK0YERxFNu4Bv4U2Tb0bakG66p0JLlaITbzk7KS_bA/edit
+
+3.PPT :
+https://www.canva.com/design/DAFppU81XuQ/Td71s8JWvz8ac5pdebl5Kw/edit
+
+4.REPORT :
+https://docs.google.com/document/d/1bznc11wVT9U3w49bNyDbSnrLzonkodg-E8QmmsdsXxU/edit?amp;usp=embed_facebook
+
+5.GITHUB LINK(Reference) : 
+https://github.com/Sparshj8287/Cyclonet
+
+6.OUR DATASET :
+https://www.kaggle.com/datasets/sidduladurgaprasad/stromsight-dataset
+
+7.OUR GITHUB LINK :
+https://github.com/sidduladurgaprasad/Stromsight

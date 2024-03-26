@@ -1,0 +1,173 @@
+Algorithm for the main function.
+
+Step 1: Load Dataset:
+        Call the load_dataset() function to load the dataset.
+
+Step 2: View Random Images from 'test_data' directory:
+        Call the view_random_image('test_data') function to display random images from the 'test_data' directory.
+
+Step 3: Create Model:
+        Call the create_model() function to create the neural network model.
+
+Step 4: Display Model Summary:
+        Call the appropriate function to display the summary of the created model.
+
+Step 5: Compile Model:
+        Call the compile_model() function to compile the created model.
+
+Step 6: Fit Model with training data (train_data):
+        Call the fitting_model() function to train the compiled model using the training data.
+
+Step 7: Predict and Plot results for image "img/path":
+        Specify the filename or path of the image for prediction.
+        Call the pred_and_plot(model, filename) function to predict and plot results for the specified image.
+
+
+Algorithm for the load dataset function.
+
+Step 1: Set Source and Destination Paths:
+        •	Set the source directory path as source=′insat3d_ir_cyclone_ds/CYCLONE_DATASET_INFRARED′.
+        •	Set the destination directory path as destination=′test_data′.
+
+Step 2:	List All Files in Source Directory:
+        •	Use allfiles=os.listdir(source) to get a list of all files in the source directory.
+
+Step 3:	Move Files to Destination Folder:
+        •	Iterate through each file f starting from the 134th index of allfilesallfiles:
+        •	Construct the source and destination paths:
+        •	src_path=os.path.join(source,f)
+        •	dst_path=os.path.join(destination,f)
+        •	Move the file from the source to the destination using:
+        •	shutil.move(src_path,dst_path)shutil.move(src_path,dst_path).
+
+
+Algorithm for the view random image function.
+
+Step 1:	Set Target Folder:
+        •	Set the target directory containing images as target_folder.
+
+Step 2:	Randomly Sample Images:
+        •	Use random_image=random.sample(os.listdir(target_folder),10) to randomly select 10 images from the 
+        target folder.
+
+Step 3:	Display Images:
+        •	Create a figure using plt.figure(figsize=(10, 10)) to set the size of the plot.
+        •	Iterate through each randomly selected image index i from 0 to 9:
+        •	Load the image using img=mpimg.imread(os.path.join(target_folder,random_image[i])).
+        •	Create a subplot using plt.subplot(5,2,i+1) to arrange the images in a grid.
+        •	Display the image using plt.imshow(img).
+        •	Set the title of the subplot as the image filename using plt.title(random_image[i]).
+        •	Turn off the axis using plt.axis("off") to remove the axis labels.
+
+
+Algorithm for the create model function.
+
+Step 1:	Initialize Input Layer:
+    •	Initialize the input layer with the shape (256,256,3) representing 256×256 pixels with 3 color channels (RGB).
+
+Step 2:	Define Layers:
+    •	Define the layers as Layers=[Conv2D(256),Conv2D(256),MaxPool2D,…,Conv2D(16),MaxPool2D].
+
+Step 3:	Iterate through Layers:
+        For each layer layer in Layers:
+        •	Apply Convolutional layer:
+            •	Use Convolution(layer) to apply a convolutional layer with specified parameters such as filters, kernel size, initializer,
+             regularization, activation, and padding.
+        •	Apply Batch Normalization:
+            •	Use BatchNorm(layer) to apply batch normalization.
+        •	Apply ReLU Activation:
+            •	Use ReLU(layer) to apply rectified linear unit activation function.
+        •	If the layer is a MaxPooling layer:
+            •	Apply MaxPooling operation.
+
+Step 4:	Flatten Output:
+    •	Flatten the output from the last convolutional block to prepare it for the fully connected layers.
+
+Step 5:	Generate Output Prediction:
+    •	Generate output prediction using a Dense layer with 1 neuron and linear activation.
+
+Step 6:	Regularization:
+    •	Apply L1L2 regularization to each Convolutional layer.
+
+Step 7:	Construct and Return Model:
+    •	Construct and return the model with the input and output layers.
+
+
+Algorithm for the compile model function.
+
+Step 1:	Define Loss Function, Optimizer, and Metrics:
+    •	Specify the loss function, optimizer, and evaluation metrics to be used for training the model.
+    •	Define the loss function as Mean Squared Error (MSE), 
+            e.g., loss=tf.keras.losses.MSE.
+    •	Choose an optimizer, such as Adam, and specify its learning rate, 
+            e.g., optimizer=tf.keras.optimizers.Adam(lr=0.002).
+    •	Specify metrics for evaluation, 
+            e.g., metrics=["mse"].
+
+Step 2:	Compile the Model:
+    •	Compile the model using the compiled function provided by the deep learning framework, 
+        e.g., model.compile(loss=loss,optimizer=optimizer,metrics=metrics).
+
+Step 3:	Define Early Stopping:
+    •	Optionally, define early stopping criteria to prevent overfitting
+
+
+Algorithm for the fitting model function.
+
+Step 1:	Train the Model:
+    •	Train the compiled model using the training data.
+    •	Specify the number of epochs and callbacks, if any.
+    •	Use model.fit(train_data,epochs=50,callbacks=[early_stopping]) to start the training process.
+
+Step 2:	Monitor Training Progress:
+    •	During training, the model's performance metrics and loss function values are monitored.
+    •	If early stopping is implemented, 
+        the training process may stop early if the specified criteria are met.
+
+Step 3:	Return Training History:
+    •	Return the training history, 
+        which typically includes metrics such as loss and accuracy values over epochs.
+
+
+Algorithm for the load and prep function.
+
+Step 1:	Read Image File:
+    •	Read the image file specified by the filename using img=tf.io.read_file(filename).
+
+Step 2:	Decode Image:
+    •	Decode the image using img=tf.image.decode_image(img,channels=3) 
+        to ensure the image is properly decoded with three color channels (RGB).
+
+Step 3:	Resize Image:
+    •	Resize the image to a specified size, e.g., 256×256 pixels, 
+        using img=tf.image.resize(img,size=[256,256]) to ensure consistency in dimensions.
+
+Step 4:	Normalize Pixel Values:
+    •	Normalize the pixel values of the image to the range [0,1] by dividing each pixel value by 255, 
+        e.g., img=img/255..
+
+Step 5:	Return Preprocessed Image:
+    •	Return the preprocessed image img.
+
+
+
+Algorithm for the pred and plot function.
+
+Step 1:	Load and Preprocess Image:
+    •	Call the "Load and Prep Image" function to load and preprocess the image 
+        specified by the filename.
+
+Step 2:	Make Prediction:
+    •	Use the trained model to predict the output for the preprocessed image.
+    •	pred=model.predict(tf.expand_dims(img,axis=0)) to get the prediction result.
+
+Step 3:	Display Image and Prediction:
+    •	Display the original image using matplotlib, 
+        e.g., plt.imshow(img).
+    •	Set the title of the plot to include the prediction, 
+        e.g., plt.title("Prediction: "+str(pred)).
+    •	Disable axis using plt.axis("off") to remove axis labels.
+
+Step 4:	Show Plot:
+    •	Display the plot using plt.show().
+

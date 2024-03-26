@@ -1,0 +1,98 @@
+
+Function load_dataset():
+    source = 'insat3d_ir_cyclone_ds/CYCLONE_DATASET_INFRARED'
+    destination = 'test_data'
+    
+    # gather all files
+    allfiles = os.listdir(source)
+    
+    # iterate on all files to move them to destination folder
+    for f in allfiles[133:]:
+        src_path = os.path.join(source, f)
+        dst_path = os.path.join(destination, f)
+        shutil.move(src_path, dst_path)
+
+Load Dataset Function End
+
+Function view_random_image(target_dir):
+    target_folder = target_dir
+    random_image = random.sample(os.listdir(target_folder), 10)
+    plt.figure(figsize=(10, 10))
+    for i in range(10):
+        img = mpimg.imread(os.path.join(target_folder, random_image[i]))
+        plt.subplot(5, 2, i + 1)
+        plt.imshow(img)
+        plt.title(random_image[i])
+        plt.axis("off")
+
+View Random Image Function End
+
+Function create_model():
+    Initialize input layer with shape (256, 256, 3)
+    Layers = [  Conv2D(256), Conv2D(256), MaxPool2D, 
+            Conv2D(256), Conv2D(128), MaxPool2D, 
+            Conv2D(128), Conv2D(64), MaxPool2D, 
+            Conv2D(64), Conv2D(32), MaxPool2D, 
+            Conv2D(32), Conv2D(16), MaxPool2D   ]
+    For each layer in Layers:
+        Apply Convolutional layer with specified filters, 
+                                       kernel size 3x3, 
+                                       He normal initializer, 
+                                       L1L2 regularization (0.01), 
+                                       ReLU activation, 
+                                       padding same
+        Apply Batch Normalization
+        Apply ReLU activation
+        
+        If layer is MaxPool2D:
+            Apply MaxPooling with default parameters
+            
+    Flatten the output from the last convolutional block
+    Generate output prediction using a Dense layer with 1 neuron and linear activation
+    Apply L1L2 regularization to each Convolutional layer
+    Construct and return the model with the input and output layers
+
+Create Model Function End
+
+Function compile_model():
+    model_1.compile(loss=tf.keras.losses.mse,
+                    optimizer=tf.keras.optimizers.Adam(lr=0.002),
+                    metrics=["mse"])
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor="loss", patience=10, mode='min')
+
+Compile Model Function End
+
+Function fitting_model():
+    history_1 = model_1.fit(train_data, epochs=50, callbacks=[early_stopping])
+
+Fitting Model Function End
+
+Function load_and_prep_image(filename, img_shape=256):
+    img = tf.io.read_file(filename)
+    img = tf.image.decode_image(img, channels=3)
+    img = tf.image.resize(img, size=[img_shape, img_shape])
+    img = img / 255.
+    return img
+
+Load And Prep Image Function End
+
+
+Function pred_and_plot(model, filename):
+    img = load_and_prep_image(filename)
+    pred = model.predict(tf.expand_dims(img, axis=0))
+    plt.imshow(img)
+    plt.title(f"Prediction: {pred}")
+    plt.axis(False)
+
+Pred ANd Plot Function End
+
+Function main():
+    Load Dataset
+    View Random Images from 'test_data' directory
+    Create Model
+    Display Model Summary
+    Compile Model
+    Fit Model with training data (train_data)  
+    Predict and Plot results for image "img/path"
+
+Main Function End
